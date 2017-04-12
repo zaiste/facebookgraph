@@ -1,0 +1,28 @@
+{
+  "name": "facebookgraph",
+  "version": "0.1.0",
+  "description": "async/await Node.js package to access Facebook Graph API",
+  "main": "index.js",
+  "repository": "https://github.com/zaiste/facebookgraph",
+  "author": "Zaiste",
+  "license": "Apache 2",
+  "dependencies": {
+    "axios": "^0.16.1"
+  },
+  "keywords": [
+    "facebook",
+    "nodejs",
+    "client",
+    "async",
+    "api",
+    "graph",
+    "async/await"
+  ],
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
