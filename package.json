@@ -16,7 +16,8 @@
     "async",
     "api",
     "graph",
-    "async/await"
+    "async-await",
+    "asyncawait"
   ],
   "devDependencies": {
     "chai": "^3.5.0",
