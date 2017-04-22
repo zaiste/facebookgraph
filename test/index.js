@@ -70,10 +70,10 @@ describe('baseRoute', () => {
     ]
   }
 
-  before(() => {
+  beforeEach(() => {
     graph = new FacebookGraph('XXX');
     nock('https://graph.facebook.com')
-      .get('/v2.8/523008607856853/posts')
+      .get('/523008607856853/posts')
       .query({ access_token: 'XXX', limit: 25 })
       .reply(200, mockPosts);
 
@@ -81,6 +81,11 @@ describe('baseRoute', () => {
       .get('/search')
       .query({ access_token: 'XXX', limit: 25, q: 'geek', type: 'page', fields: 'name' })
       .reply(200, mockSearch);
+
+    nock('https://graph.facebook.com')
+      .post('/me/feed')
+      .query({ access_token: 'XXX', message: 'Testing', link: 'https://zaiste.net' })
+      .reply(200, { data: { id: '596959271_10154776798369272' }});
   })
 
   it('should return 4 posts from /zaiste.net', async () => {
@@ -95,9 +100,14 @@ describe('baseRoute', () => {
     expect(pages).to.have.lengthOf(25);
   });
 
-  // it('should return specified number of search results', async () => {
-  //   const pages = await graph.search({ q: 'geek', type: 'page', fields: 'name' }, 33)
-  //   expect(pages).to.be.a('array');
-  //   expect(pages).to.have.lengthOf(33);
-  // }).timeout(10500);
+  it('should return specified number of search results', async () => {
+    const pages = await graph.search({ q: 'geek', type: 'page', fields: 'name' }, 7)
+    expect(pages).to.be.a('array');
+    expect(pages).to.have.lengthOf(7);
+  })
+
+  it('should post a message with link', async () => {
+    const post = await graph.post('me', { message: 'Testing', link: 'https://zaiste.net' });
+    expect(post).to.be.a('Object')
+  })
 });
