@@ -12,6 +12,21 @@ const posts = await graph.fetch('523008607856853', 'posts', 5)
 console.log(posts);
 ```
 
+### Request object using ID
+
+```js
+const zuck = await graph.get('4');
+```
+
+```
+{ id: '4',
+  first_name: 'Mark',
+  last_name: 'Zuckerberg',
+  link: 'https://www.facebook.com/app_scoped_user_id/4/',
+  name: 'Mark Zuckerberg',
+  updated_time: '2017-01-26T08:32:59+0000' }
+```
+
 ### Search API
 
 Search API endpoint is: `https://graph.facebook.com/v2.8/search`. You can search through objects of type `user`, `page`, `event`, `group`, `place`, `placetopic`.
