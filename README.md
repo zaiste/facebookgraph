@@ -2,12 +2,27 @@
 
 `async/await` library to simplify the integration with Facebook Graph API. It only works with Node 7.6+.
 
+## Install
+
+```
+yarn add facebookgraph
+```
+
+or 
+
+
+```
+npm install facebookgraph
+```
+
 ## Usage  
 
-Fetch 5 posts of the page with the id `523008607856853`
+In order to use Facebook Graph API you need to have an access token which is being used to initialize `FacebookGraph` object. Here's an example how to fetch 5 posts of the page with the id `523008607856853`.
 
 ```js
-const graph = new Graph('<Your Facebook Access Token>')
+const FacebookGraph = require('facebookgraph');
+
+const graph = new FacebookGraph('<Your Facebook Access Token>')
 const posts = await graph.fetch('523008607856853', 'posts', 5)
 console.log(posts);
 ```
