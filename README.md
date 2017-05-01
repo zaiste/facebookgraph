@@ -1,6 +1,10 @@
 # facebookgraph 
 
-`async/await` library to simplify the integration with Facebook Graph API. It only works with Node 7.6+.
+`facebookgraph` is a Node.js client/interface for the [Facebook Graph API][3].
+
+* it uses [axios][1] instead of [requests][2]
+* it uses `async/await` syntax
+* it works only with Node.js 7.6+
 
 ## Install
 
@@ -9,7 +13,6 @@ yarn add facebookgraph
 ```
 
 or 
-
 
 ```
 npm install facebookgraph
@@ -68,3 +71,8 @@ const post = await graph.post('me', { message: 'This is a test message.', link: 
 ```
 
 Set `no_story` to hide the post from showing up in the user feed.
+
+
+[1]: https://github.com/mzabriskie/axios
+[2]: https://github.com/request/request
+[3]: https://developers.facebook.com/docs/graph-api
