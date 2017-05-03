@@ -72,6 +72,16 @@ const post = await graph.post('me', { message: 'This is a test message.', link: 
 
 Set `no_story` to hide the post from showing up in the user feed.
 
+### Batch requests
+
+```js
+const r = await graph.batch([
+  { method: "GET", relative_url: "me"},
+  { method: "GET", relative_url: "me/friends?limit=10"}
+])
+```
+
+
 
 [1]: https://github.com/mzabriskie/axios
 [2]: https://github.com/request/request
