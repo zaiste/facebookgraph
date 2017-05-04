@@ -6,6 +6,16 @@
 * it uses `async/await` syntax
 * it works only with Node.js 7.6+
 
+**Table of Contents**
+
+- [Install](#install)
+- [Usage](#usage)
+  - [Request object using ID](#request-object-using-id)
+  - [Search API](#search-api)
+  - [Posting text messages, photos or videos](#posting-text-messages-photos-or-videos)
+  - [Batch requests](#batch-requests)
+
+
 ## Install
 
 ```
