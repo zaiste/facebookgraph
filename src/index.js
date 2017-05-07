@@ -1,4 +1,4 @@
-// 
+// @flow
 
 // Copyright 2016 Zaiste & contributors. All rights reserved.
 //
@@ -19,14 +19,19 @@ const path = require('path');
 const make = require('axios');
 
 class FacebookGraph {
+  accessToken: string;
+  version: string;
+  baseURL: string;
+  searchURL: string;
+  prepareRequest: (path: string) => mixed;
 
-  constructor(accessToken, version = '2.9') {
+  constructor(accessToken: string, version: string = '2.9') {
     this.accessToken = accessToken;
     this.version = version;
 
     this.baseURL = `https://graph.facebook.com`;
     this.searchURL = `${this.baseURL}/v${version}/search`;
-    this.prepareRequest = (path, params, method = 'GET') => ({
+    this.prepareRequest = (path: string, params, method = 'GET'): {} => ({
       headers: { 'User-Agent': 'Facebook Graph Client' },
       method,
       params: Object.assign({ access_token: this.accessToken }, params),
@@ -34,7 +39,7 @@ class FacebookGraph {
     });
   }
 
-  async get(requestPath, params) {
+  async get(requestPath: string, params: {}): Promise<{ data: Array<{}>, next: { path: string } }> {
     let result = { data: [], next: { path: '' } };
 
     try {
@@ -58,12 +63,12 @@ class FacebookGraph {
     return result;
   }
 
-  async paginate(path, params, size) {
+  async paginate(path: string, params: { limit: number }, size: number): Promise<Array<{}>> {
     let result = await this.get(path, params);
     let entities = result.data;
     let counter = entities.length;
 
-    const { limit } = params;
+    const { limit }: { limit: number } = params;
 
     while (result.next && counter < size) {
       result = await this.get(result.next.path, { limit });
@@ -73,16 +78,16 @@ class FacebookGraph {
     return entities.slice(0, size);
   }
 
-  async fetch(id, type, size = 10) {
+  async fetch(id: string, type: string, size: number = 10) {
     const requestPath = `${id}/${type}`;
     return await this.paginate(requestPath, { limit: 25 }, size);
   }
 
-  async search({ q, type, fields }, size = 25) {
+  async search({ q, type, fields }: { q: string, type: string, fields: {} }, size: number = 25) {
     return await this.paginate('search', { q, type, fields, limit: 25 }, size);
   }
 
-  async postImage(id, { caption, url }) {
+  async postImage(id: string, { caption, url }: { caption: string, url: string }) {
     const request = this.prepareRequest(
       `${id}/photos`,
       { caption, url },
@@ -92,7 +97,7 @@ class FacebookGraph {
     return response.data;
   }
 
-  async postVideo(id, { description, file_url }) {
+  async postVideo(id: string, { description, file_url }: { description: string, file_url: string }) {
     const request = this.prepareRequest(
       `${id}/videos`,
       { description, file_url },
@@ -102,7 +107,7 @@ class FacebookGraph {
     return response.data;
   }
 
-  async post(id, { message, link, no_story = false }) {
+  async post(id: string, { message, link, no_story = false }: { message: string, link: string, no_story: boolean }) {
     const request = this.prepareRequest(
       `${id}/feed`,
       { message, link },
@@ -112,7 +117,7 @@ class FacebookGraph {
     return response.data;
   }
 
-  async batch(batch) {
+  async batch(batch: {}) {
     let response;
     try {
       const request = this.prepareRequest(``, { batch: JSON.stringify(batch) }, 'POST');
@@ -125,7 +130,7 @@ class FacebookGraph {
     return response;
   }
 
-  async del(id) {
+  async del(id: string) {
     let response;
     try {
       const request = this.prepareRequest(`${id}`, {}, 'DELETE');

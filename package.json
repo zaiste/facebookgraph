@@ -10,7 +10,7 @@
     "axios": "^0.16.1"
   },
   "engines": {
-    "node" : ">=7.6"
+    "node": ">=7.6"
   },
   "keywords": [
     "facebook",
@@ -24,10 +24,14 @@
   ],
   "devDependencies": {
     "chai": "^3.5.0",
+    "flow-bin": "^0.45.0",
+    "flow-remove-types": "^1.2.1",
     "mocha": "^3.2.0",
     "nock": "^9.0.13"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "flow-remove-types --pretty src/ -d lib/",
+    "prepublish": "yarn run build"
   }
 }
