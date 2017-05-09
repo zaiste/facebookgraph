@@ -39,7 +39,7 @@ class FacebookGraph {
     });
   }
 
-  async get(requestPath: string, params: {}): Promise<{ data: Array<{}>, next: { path: string } }> {
+  async get(requestPath: string, params: {}): Promise<{ data: Array<{}>, next: { path: string }}> | Promise<{ access_token: string }> {
     let result = { data: [], next: { path: '' } };
 
     try {
@@ -59,6 +59,15 @@ class FacebookGraph {
       console.log(`  ${error.message}`);
       console.log(`  ${error.response.headers['www-authenticate']}`);
     }
+
+    return result;
+  }
+
+  async extend(client_id: string, client_secret: string): Promise<{ access_token: string }> {
+    let result: { access_token: string };
+
+    result = await this.get("/oauth/access_token", { client_id, client_secret, fb_exchange_token: this.accessToken, grant_type: 'fb_exchange_token' });
+    this.accessToken = result.access_token;
 
     return result;
   }
