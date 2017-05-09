@@ -1,5 +1,7 @@
 # facebookgraph 
 
+![facebookgraph: Node.js client for the Facebook Graph API with Flow support](https://raw.githubusercontent.com/zaiste/facebookgraph/master/logo.png)
+
 `facebookgraph` is a Node.js client/interface for the [Facebook Graph API][3].
 
 * it uses [axios][1] instead of [requests][2]
