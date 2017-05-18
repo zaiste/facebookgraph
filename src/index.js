@@ -18,6 +18,12 @@ const url = require('url');
 const path = require('path');
 const make = require('axios');
 
+// type Data = {};
+// type Collection = {| data: Array<{}>, next: { path: string }, paging: { next: string, previous: string } |};
+// type AccessToken = { access_token: string };
+// type Response = Data | Collection | AccessToken;
+type Response = any;
+
 class FacebookGraph {
   accessToken: string;
   version: string;
@@ -39,14 +45,13 @@ class FacebookGraph {
     });
   }
 
-  async get(requestPath: string, params: {}): Promise<{ data: Array<{}>, next: { path: string }}> | Promise<{ access_token: string }> {
-    let result = { data: [], next: { path: '' } };
 
+  async get(requestPath: string, params: {}): Promise<Response> {
     try {
       const request = this.prepareRequest(requestPath, params);
       const response = await make(request);
 
-      result = response.data;
+      let result: Response = response.data;
 
       if (result.paging && result.paging.next) {
         result.next = url.parse(result.paging.next);
@@ -54,26 +59,26 @@ class FacebookGraph {
       if (result.paging && result.paging.previous) {
         result.previous = url.parse(result.paging.previous);
       }
+
+      return result;
     } catch (error) {
       console.log(error.response.statusText);
       console.log(`  ${error.message}`);
       console.log(`  ${error.response.headers['www-authenticate']}`);
     }
 
-    return result;
+    return {}
   }
 
-  async extend(client_id: string, client_secret: string): Promise<{ access_token: string }> {
-    let result: { access_token: string };
-
-    result = await this.get("/oauth/access_token", { client_id, client_secret, fb_exchange_token: this.accessToken, grant_type: 'fb_exchange_token' });
+  async extend(client_id: string, client_secret: string): Promise<Response> {
+    let result: Response = await this.get("/oauth/access_token", { client_id, client_secret, fb_exchange_token: this.accessToken, grant_type: 'fb_exchange_token' });
     this.accessToken = result.access_token;
 
     return result;
   }
 
   async paginate(path: string, params: { limit: number }, size: number): Promise<Array<{}>> {
-    let result = await this.get(path, params);
+    let result: Response = await this.get(path, params);
     let entities = result.data;
     let counter = entities.length;
 
@@ -87,16 +92,16 @@ class FacebookGraph {
     return entities.slice(0, size);
   }
 
-  async fetch(id: string, type: string, size: number = 10) {
+  async fetch(id: string, type: string, size: number = 10): Promise<Array<{}>> {
     const requestPath = `${id}/${type}`;
     return await this.paginate(requestPath, { limit: 25 }, size);
   }
 
-  async search({ q, type, fields }: { q: string, type: string, fields: {} }, size: number = 25) {
+  async search({ q, type, fields }: { q: string, type: string, fields: {} }, size: number = 25): Promise<Array<{}>> {
     return await this.paginate('search', { q, type, fields, limit: 25 }, size);
   }
 
-  async postImage(id: string, { caption, url }: { caption: string, url: string }) {
+  async postImage(id: string, { caption, url }: { caption: string, url: string }): Promise<{}> {
     const request = this.prepareRequest(
       `${id}/photos`,
       { caption, url },
@@ -106,7 +111,7 @@ class FacebookGraph {
     return response.data;
   }
 
-  async postVideo(id: string, { description, file_url }: { description: string, file_url: string }) {
+  async postVideo(id: string, { description, file_url }: { description: string, file_url: string }): Promise<{}> {
     const request = this.prepareRequest(
       `${id}/videos`,
       { description, file_url },
@@ -116,7 +121,7 @@ class FacebookGraph {
     return response.data;
   }
 
-  async post(id: string, { message, link, no_story = false }: { message: string, link: string, no_story: boolean }) {
+  async post(id: string, { message, link, no_story = false }: { message: string, link: string, no_story: boolean }): Promise<{}> {
     const request = this.prepareRequest(
       `${id}/feed`,
       { message, link },
@@ -126,7 +131,7 @@ class FacebookGraph {
     return response.data;
   }
 
-  async batch(batch: {}) {
+  async batch(batch: {}): Promise<Response> {
     let response;
     try {
       const request = this.prepareRequest(``, { batch: JSON.stringify(batch) }, 'POST');
@@ -139,7 +144,7 @@ class FacebookGraph {
     return response;
   }
 
-  async del(id: string) {
+  async del(id: string): Promise<Response> {
     let response;
     try {
       const request = this.prepareRequest(`${id}`, {}, 'DELETE');

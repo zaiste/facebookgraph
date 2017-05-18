@@ -24,9 +24,9 @@
   ],
   "devDependencies": {
     "chai": "^3.5.0",
-    "flow-bin": "^0.45.0",
+    "flow-bin": "^0.46.0",
     "flow-remove-types": "^1.2.1",
-    "mocha": "^3.2.0",
+    "mocha": "^3.4.1",
     "nock": "^9.0.13"
   },
   "scripts": {
