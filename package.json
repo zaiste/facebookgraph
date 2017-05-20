@@ -20,18 +20,18 @@
     "api",
     "graph",
     "async-await",
-    "asyncawait"
+    "asyncawait",
+    "typescript"
   ],
   "devDependencies": {
+    "@types/node": "^7.0.21",
     "chai": "^3.5.0",
-    "flow-bin": "^0.46.0",
-    "flow-remove-types": "^1.2.1",
     "mocha": "^3.4.1",
     "nock": "^9.0.13"
   },
   "scripts": {
     "test": "mocha",
-    "build": "flow-remove-types --pretty src/ -d lib/",
+    "build": "tsc",
     "prepublish": "yarn run build"
   }
 }

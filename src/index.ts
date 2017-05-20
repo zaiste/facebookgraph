@@ -1,5 +1,3 @@
-// @flow
-
 // Copyright 2016 Zaiste & contributors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,25 +11,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { parse } from 'url';
+import make from 'axios';
 
-const url = require('url');
-const path = require('path');
-const make = require('axios');
-
-// type Data = {};
-// type Collection = {| data: Array<{}>, next: { path: string }, paging: { next: string, previous: string } |};
-// type AccessToken = { access_token: string };
-// type Response = Data | Collection | AccessToken;
-type Response = any;
+type Response = {
+  data?: Array<{}>,
+  next?: { path?: string },
+  previous?: { path?: string },
+  paging?: { next: string, previous: string },
+  access_token?: string
+};
 
 class FacebookGraph {
   accessToken: string;
   version: string;
   baseURL: string;
   searchURL: string;
-  prepareRequest: (path: string) => mixed;
+  prepareRequest: (path: string, params: {}, method?: string) => any;
 
-  constructor(accessToken: string, version: string = '2.9') {
+  constructor(accessToken: string, version: string = '2.9', debug: string) {
     this.accessToken = accessToken;
     this.version = version;
 
@@ -54,10 +52,10 @@ class FacebookGraph {
       let result: Response = response.data;
 
       if (result.paging && result.paging.next) {
-        result.next = url.parse(result.paging.next);
+        result.next = parse(result.paging.next);
       }
       if (result.paging && result.paging.previous) {
-        result.previous = url.parse(result.paging.previous);
+        result.previous = parse(result.paging.previous);
       }
 
       return result;
@@ -77,7 +75,7 @@ class FacebookGraph {
     return result;
   }
 
-  async paginate(path: string, params: { limit: number }, size: number): Promise<Array<{}>> {
+  async paginate(path: string, params: { q?: string, type?: string, fields?: {}, limit: number }, size: number): Promise<Array<{}>> {
     let result: Response = await this.get(path, params);
     let entities = result.data;
     let counter = entities.length;
@@ -156,6 +154,7 @@ class FacebookGraph {
     }
     return response;
   }
+
 }
 
 module.exports = FacebookGraph;
