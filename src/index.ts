@@ -22,12 +22,12 @@ type Response = {
   access_token?: string
 };
 
+
 class FacebookGraph {
   accessToken: string;
   version: string;
   baseURL: string;
   searchURL: string;
-  prepareRequest: (path: string, params: {}, method?: string) => any;
 
   constructor(accessToken: string, version: string = '2.9', debug: string) {
     this.accessToken = accessToken;
@@ -35,20 +35,31 @@ class FacebookGraph {
 
     this.baseURL = `https://graph.facebook.com`;
     this.searchURL = `${this.baseURL}/v${version}/search`;
-    this.prepareRequest = (path: string, params, method = 'GET'): {} => ({
-      headers: { 'User-Agent': 'Facebook Graph Client' },
-      method,
-      params: Object.assign({ access_token: this.accessToken }, params),
-      url: `${this.baseURL}/${path}`
-    });
+
+  }
+
+  async request(path: string, params, method = 'GET'): Promise<Response> {
+    try {
+      const response = await make({
+        headers: { 'User-Agent': 'Facebook Graph Client' },
+        method,
+        params: Object.assign({ access_token: this.accessToken }, params),
+        url: `${this.baseURL}/${path}`
+      })
+
+      return response;
+    } catch (error) {
+      console.log(error.response.statusText);
+      console.log(`  ${error.message}`);
+      console.log(`  ${error.response.headers['www-authenticate']}`);
+    }
   }
 
 
   async get(requestPath: string, params: {}): Promise<Response> {
-    try {
-      const request = this.prepareRequest(requestPath, params);
-      const response = await make(request);
+    const response = await this.request(requestPath, params);
 
+    if (response) {
       let result: Response = response.data;
 
       if (result.paging && result.paging.next) {
@@ -59,13 +70,7 @@ class FacebookGraph {
       }
 
       return result;
-    } catch (error) {
-      console.log(error.response.statusText);
-      console.log(`  ${error.message}`);
-      console.log(`  ${error.response.headers['www-authenticate']}`);
     }
-
-    return {}
   }
 
   async extend(client_id: string, client_secret: string): Promise<Response> {
@@ -100,61 +105,52 @@ class FacebookGraph {
   }
 
   async postImage(id: string, { caption, url }: { caption: string, url: string }): Promise<{}> {
-    const request = this.prepareRequest(
+    const response = await this.request(
       `${id}/photos`,
       { caption, url },
       'POST'
     );
-    const response = await make(request);
-    return response.data;
+
+    if (response.data) {
+      return response.data;
+    }
   }
 
   async postVideo(id: string, { description, file_url }: { description: string, file_url: string }): Promise<{}> {
-    const request = this.prepareRequest(
+    const response = await this.request(
       `${id}/videos`,
       { description, file_url },
       'POST'
     );
-    const response = await make(request);
-    return response.data;
+
+    if (response) {
+      return response.data;
+    }
   }
 
   async post(id: string, { message, link, no_story = false }: { message: string, link: string, no_story: boolean }): Promise<{}> {
-    const request = this.prepareRequest(
+    const response = await this.request(
       `${id}/feed`,
       { message, link },
       'POST'
     );
-    const response = await make(request);
-    return response.data;
+
+    if (response) {
+      return response.data;
+    }
   }
 
   async batch(batch: {}): Promise<Response> {
-    let response;
-    try {
-      const request = this.prepareRequest(``, { batch: JSON.stringify(batch) }, 'POST');
-      response = await make(request);
-    } catch (error) {
-      console.log(error.response.statusText);
-      console.log(`  ${error.message}`);
-      console.log(`  ${error.response.headers['www-authenticate']}`);
-    }
+    const response = this.request(``, { batch: JSON.stringify(batch) }, 'POST');
+
     return response;
   }
 
   async del(id: string): Promise<Response> {
-    let response;
-    try {
-      const request = this.prepareRequest(`${id}`, {}, 'DELETE');
-      response = await make(request);
-    } catch (error) {
-      console.log(error.response.statusText);
-      console.log(`  ${error.message}`);
-      console.log(`  ${error.response.headers['www-authenticate']}`);
-    }
+    const response = this.request(`${id}`, {}, 'DELETE');
+
     return response;
   }
-
 }
 
 module.exports = FacebookGraph;
