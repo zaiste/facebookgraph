@@ -7,6 +7,8 @@
 * it uses [axios][1] instead of [requests][2]
 * it uses `async/await` syntax
 * it works only with Node.js 7.6+
+* it uses TypeScript
+* it comes with built-in pagination for fetching particular nodes and search
 
 **Table of Contents**
 
@@ -74,6 +76,12 @@ The syntax for requesting the field of a field is `field{nestedField}`; to reque
 
 ```js
 const users = await graph.search({ q: 'geek', type: 'user', fields: 'photos.limit(2){link, comments.limit(2)}' }
+```
+
+By default, `.search` fetches first 25 elements that match the search query. It is possible, however, get more results as pagination is already incorporated. There is a 2nd paramater `size` for `.search` which defines how many elements should be fetched in total: it can be set either to a particular number or as `Infinity` to go through all the results pages and gather all results
+
+```js
+const pages = await graph.search({ q: 'geek', type: 'page', fields: 'name, link' }, Infinity)
 ```
 
 ### Posting text messages, photos or videos
