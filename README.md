@@ -8,7 +8,7 @@
 * it uses `async/await` syntax
 * it works only with Node.js 7.6+
 * it uses TypeScript
-* it comes with built-in pagination for fetching particular nodes and search
+* it comes with built-in pagination for fetching data from particular nodes or via search
 
 **Table of Contents**
 
@@ -16,6 +16,7 @@
 - [Usage](#usage)
   - [Request object using ID](#request-object-using-id)
   - [Search API](#search-api)
+  - [Pagination](#pagination)
   - [Posting text messages, photos or videos](#posting-text-messages-photos-or-videos)
   - [Batch requests](#batch-requests)
 
@@ -78,10 +79,16 @@ The syntax for requesting the field of a field is `field{nestedField}`; to reque
 const users = await graph.search({ q: 'geek', type: 'user', fields: 'photos.limit(2){link, comments.limit(2)}' }
 ```
 
-By default, `.search` fetches first 25 elements that match the search query. It is possible, however, get more results as pagination is already incorporated. There is a 2nd paramater `size` for `.search` which defines how many elements should be fetched in total: it can be set either to a particular number or as `Infinity` to go through all the results pages and gather all results
+### Pagination
+
+By default, `.search` and `.fetch` get only first 25 corresponding elements. It is possible, however, get more results as pagination is already incorporated. There is a 2nd paramater `size` for both `.search` and `.fetch` which defines how many elements should be fetched in total: it can be set either to a particular number or as `Infinity` to go through all the results pages and gather all results
 
 ```js
 const pages = await graph.search({ q: 'geek', type: 'page', fields: 'name, link' }, Infinity)
+```
+
+```js
+const posts = await graph.fetch('523008607856853', 'posts', 100)
 ```
 
 ### Posting text messages, photos or videos
