@@ -17,7 +17,7 @@ const nock = require('nock');
 
 const FacebookGraph = require('../lib');
 const config = require('./config');
-const { mockPosts, mockSearch } = require('./mocks');
+const { mockPosts, mockSearch, mockBatch } = require('./mocks');
 
 const expect = chai.expect;
 
@@ -35,6 +35,17 @@ describe('baseRoute', () => {
       .get('/search')
       .query({ access_token: 'XXX', limit: 25, q: 'geek', type: 'page', fields: 'name' })
       .reply(200, mockSearch);
+
+    nock('https://graph.facebook.com')
+      .get('/')
+      .query({
+        access_token: 'XXX',
+        batch: [
+          { method: "GET", relative_url: "me"},
+          { method: "GET", relative_url: "me/friends?limit=2" }
+        ]
+      })
+      .reply(200, mockBatch)
 
     nock('https://graph.facebook.com')
       .post('/me/feed')
@@ -64,4 +75,13 @@ describe('baseRoute', () => {
     const post = await graph.post('me', { message: 'Testing', link: 'https://zaiste.net' });
     expect(post).to.be.a('Object')
   })
+
+  it('should return 2 responses for batch request', async () => {
+    const result = await graph.batch([
+      { method: "GET", relative_url: "me" },
+      { method: "GET", relative_url: "me/friends?limit=2" }
+    ]);
+    expect(result.data).to.be.a('array');
+    expect(result.data).to.have.lengthOf(2);
+  });
 });

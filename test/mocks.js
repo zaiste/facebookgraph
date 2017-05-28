@@ -53,7 +53,23 @@ const mockSearch = {
   ]
 };
 
+const mockBatch = {
+  data: [
+    {
+      code: 200,
+      headers: [],
+      body: '{"id":"111","first_name":"Mark","gender":"male","languages":[{"id":"113599388650247","name":"Klingon"}],"last_name":"Zuckerberg","link":"https:\\/\\/www.facebook.com\\/app_scoped_user_id\\/4\\/","locale":"en_US","name":"Mark Zuckerberg","timezone":9,"updated_time":"2013-05-03T14:23:45+0000","verified":true}'
+    },
+    {
+      code: 200,
+      headers: [],
+      body: '{"data":[{"name":"John Doe","id":"1"},{"name":"Steve Appleseed","id":"2"}],"paging":{"cursors":{"before":"AAA","after":"ZZZ"},"next":"https:\\/\\/graph.facebook.com\\/v2.3\\/4\\/friends?access_token=XXX&limit=10&after=ZZZ"},"summary":{"total_count":101010101010}}'
+    }
+  ]
+}
+
 module.exports = {
   mockPosts,
-  mockSearch
+  mockSearch,
+  mockBatch,
 };
