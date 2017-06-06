@@ -2,19 +2,20 @@
 # yarn lockfile v1
 
 
-"@types/node@^7.0.27":
-  version "7.0.27"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.27.tgz#ba5e1a87aca2b4f5817289615ffe56472927687e"
+"@types/node@^7.0.28":
+  version "7.0.28"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.28.tgz#3a8c62b718a73bbb89ede4aba5ab12c8f822c36e"
 
 assertion-error@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/assertion-error/-/assertion-error-1.0.2.tgz#13ca515d86206da0bac66e834dd397d87581094c"
 
-axios@^0.16.1:
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.16.1.tgz#c0b6d26600842384b8f509e57111f0d2df8223ca"
+axios@^0.16.2:
+  version "0.16.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.16.2.tgz#ba4f92f17167dfbab40983785454b9ac149c3c6d"
   dependencies:
     follow-redirects "^1.2.3"
+    is-buffer "^1.1.5"
 
 balanced-match@^0.4.1:
   version "0.4.2"
@@ -39,9 +40,9 @@ browser-stdout@1.3.0:
     deep-eql "^0.1.3"
     type-detect "^1.0.0"
 
-chai@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/chai/-/chai-4.0.1.tgz#9e41e808e17a7f10807721e2ac5a589d5bb09082"
+chai@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/chai/-/chai-4.0.2.tgz#2f7327c4de6f385dd7787999e2ab02697a32b83b"
   dependencies:
     assertion-error "^1.0.1"
     check-error "^1.0.1"
@@ -141,6 +142,10 @@ inflight@^1.0.4:
 inherits@2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
+
+is-buffer@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.5.tgz#1f3b26ef613b214b88cbca23cc6c01d87961eecc"
 
 json-stringify-safe@^5.0.1:
   version "5.0.1"
