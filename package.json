@@ -24,7 +24,7 @@
     "typescript"
   ],
   "devDependencies": {
-    "@types/node": "^8.0.3",
+    "@types/node": "^8.0.7",
     "chai": "^4.0.2",
     "mocha": "^3.4.2",
     "nock": "^9.0.13"
