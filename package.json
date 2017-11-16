@@ -7,7 +7,7 @@
   "author": "Zaiste",
   "license": "Apache-2.0",
   "dependencies": {
-    "axios": "^0.16.2"
+    "axios": "^0.17.1"
   },
   "engines": {
     "node": ">=7.6"
@@ -24,10 +24,10 @@
     "typescript"
   ],
   "devDependencies": {
-    "@types/node": "^8.0.7",
-    "chai": "^4.0.2",
-    "mocha": "^3.4.2",
-    "nock": "^9.0.13"
+    "@types/node": "^8.0.53",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "nock": "^9.1.0"
   },
   "scripts": {
     "test": "mocha",
