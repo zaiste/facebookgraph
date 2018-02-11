@@ -75,7 +75,7 @@ describe('baseRoute', () => {
     const post = await graph.post('me', { message: 'Testing', link: 'https://zaiste.net' });
     expect(post).to.be.a('Object')
   })
-
+/*
   it('should return 2 responses for batch request', async () => {
     const result = await graph.batch([
       { method: "GET", relative_url: "me" },
@@ -84,4 +84,5 @@ describe('baseRoute', () => {
     expect(result.data).to.be.a('array');
     expect(result.data).to.have.lengthOf(2);
   });
+*/
 });
