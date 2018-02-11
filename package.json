@@ -2,7 +2,7 @@
   "name": "facebookgraph",
   "version": "0.3.0",
   "description": "async/await Node.js package to access Facebook Graph API",
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": "https://github.com/zaiste/facebookgraph",
   "author": "Zaiste",
   "license": "Apache-2.0",
