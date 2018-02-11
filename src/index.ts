@@ -14,12 +14,21 @@
 import { parse } from 'url';
 import make from 'axios';
 
-type Response = {
+type FacebookResponse = {
   data?: Array<{}>,
   next?: { path?: string },
   previous?: { path?: string },
   paging?: { next: string, previous: string },
   access_token?: string
+}
+
+type Response = {
+  data?: FacebookResponse,
+  status?: number,
+  statusText?: string,
+  headers?: {
+    [key:string]: string
+  }
 };
 
 
@@ -35,7 +44,6 @@ class FacebookGraph {
 
     this.baseURL = `https://graph.facebook.com`;
     this.searchURL = `${this.baseURL}/v${version}/search`;
-
   }
 
   async request(path: string, params, method = 'GET'): Promise<Response> {
@@ -49,18 +57,18 @@ class FacebookGraph {
 
       return response;
     } catch (error) {
-      console.log(error.response.statusText);
+      console.log(error.response.status);
       console.log(`  ${error.message}`);
       console.log(`  ${error.response.headers['www-authenticate']}`);
     }
   }
 
 
-  async get(requestPath: string, params: {}): Promise<Response> {
+  async get(requestPath: string, params: {}): Promise<FacebookResponse> {
     const response = await this.request(requestPath, params);
 
     if (response) {
-      let result: Response = response.data;
+      let result: FacebookResponse = response.data;
 
       if (result.paging && result.paging.next) {
         result.next = parse(result.paging.next);
@@ -73,15 +81,15 @@ class FacebookGraph {
     }
   }
 
-  async extend(client_id: string, client_secret: string): Promise<Response> {
-    let result: Response = await this.get("/oauth/access_token", { client_id, client_secret, fb_exchange_token: this.accessToken, grant_type: 'fb_exchange_token' });
+  async extend(client_id: string, client_secret: string): Promise<FacebookResponse> {
+    let result: FacebookResponse = await this.get("/oauth/access_token", { client_id, client_secret, fb_exchange_token: this.accessToken, grant_type: 'fb_exchange_token' });
     this.accessToken = result.access_token;
 
     return result;
   }
 
   async paginate(path: string, params: { q?: string, type?: string, fields?: {}, limit: number }, size: number): Promise<Array<{}>> {
-    let result: Response = await this.get(path, params);
+    let result: FacebookResponse = await this.get(path, params);
     let entities = result.data;
     let counter = entities.length;
 
