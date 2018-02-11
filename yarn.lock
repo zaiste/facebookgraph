@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/node@^8.0.53":
-  version "8.0.53"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.53.tgz#396b35af826fa66aad472c8cb7b8d5e277f4e6d8"
+"@types/node@^9.4.5":
+  version "9.4.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.5.tgz#d2a90c634208173d1b1a0a6ba9f1df3de62edcf5"
 
 assertion-error@^1.0.1:
   version "1.0.2"
@@ -181,9 +181,9 @@ mkdirp@0.5.1, mkdirp@^0.5.0:
   dependencies:
     minimist "0.0.8"
 
-mocha@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-4.0.1.tgz#0aee5a95cf69a4618820f5e51fa31717117daf1b"
+mocha@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/mocha/-/mocha-5.0.0.tgz#cccac988b0bc5477119cba0e43de7af6d6ad8f4e"
   dependencies:
     browser-stdout "1.3.0"
     commander "2.11.0"
@@ -204,9 +204,9 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
-nock@^9.1.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/nock/-/nock-9.1.0.tgz#b6fd783abc1e774cb028058ea81207369a735747"
+nock@^9.1.6:
+  version "9.1.6"
+  resolved "https://registry.yarnpkg.com/nock/-/nock-9.1.6.tgz#16395af4c45b0fd84d1a4a9668154e16fa6624db"
   dependencies:
     chai ">=1.9.2 <4.0.0"
     debug "^2.2.0"
@@ -215,7 +215,7 @@ nock@^9.1.0:
     lodash "~4.17.2"
     mkdirp "^0.5.0"
     propagate "0.4.0"
-    qs "^6.0.2"
+    qs "^6.5.1"
     semver "^5.3.0"
 
 once@^1.3.0:
@@ -236,9 +236,9 @@ propagate@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/propagate/-/propagate-0.4.0.tgz#f3fcca0a6fe06736a7ba572966069617c130b481"
 
-qs@^6.0.2:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.4.0.tgz#13e26d28ad6b0ffaa91312cd3bf708ed351e7233"
+qs@^6.5.1:
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
 semver@^5.3.0:
   version "5.4.1"
